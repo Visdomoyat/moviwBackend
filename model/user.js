@@ -1,14 +1,16 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    username: {type: String, require:true},
-    hashedPassword: {type: String, require:true}
-})
+    username: {type: String, required:true},
+    hashedPassword: {type: String, required:true}
+});
 
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
-        delete returnedObject.hashedPassword
-    }
+     //   console.log('Before', returnedObject)
+        delete returnedObject.hashedPassword;
+        return returnedObject
+    },
 });
 const User = mongoose.model('User', userSchema)
 
