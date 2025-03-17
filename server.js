@@ -8,7 +8,7 @@ const logger = require('morgan');
 const testJwtRouter = require('./controllers/test-jwt');
 const authController = require('./controllers/auth')
 const userController = require('./controllers/user')
-const hootsController = require("./controllers/hoots.js");
+const serviceController = require("./controllers/service.js");
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on('connected', () => {
@@ -23,8 +23,12 @@ app.use(logger('dev'));
 app.use('/test-jwt', testJwtRouter);
 app.use('/auth', authController)
 app.use('/users', userController)
-app.use("/hoots", hootsController)
+app.use("/service", serviceController)
+app.use((err, req, res, next) => {
+  console.error('Server Error:', err);
+  res.status(500).json({message: "Internal Server Error"})
+})
 
-app.listen(3002, () => {
+app.listen(3000, () => {
   console.log('The express app is ready!');
 });
