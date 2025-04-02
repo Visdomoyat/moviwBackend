@@ -18,9 +18,7 @@ mongoose.connection.on('connected', () => {
 
 app.use(
   cors({
-    origin: "https://visdom-dev.netlify.app", // Allow only this origin
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
+    origin: "https://visdom-dev.netlify.app" || 'http://localhost:5173' , // Allow only this origin
     credentials: true, // If you're using cookies or authentication
   })
 );
