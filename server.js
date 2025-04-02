@@ -16,7 +16,14 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors({ origin: true}));
+app.use(
+  cors({
+    origin: "https://visdom-dev.netlify.app", // Allow only this origin
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true, // If you're using cookies or authentication
+  })
+);
 
 app.use(express.json());
 app.use(logger('dev'));

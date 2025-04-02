@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken')
 const User = require('../model/user');
 const saltRounds = 12;
 
-
+router.get('/auth', (req, res) => {
+  res.status(200).json({status: 'OK'})
+})
 router.post('/sign-up', async (req, res) => {
    try{
     const userInDatabase = await User.findOne({username: req.body.username})
