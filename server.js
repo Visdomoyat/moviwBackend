@@ -1,5 +1,6 @@
-const dotenv = require('dotenv');
-dotenv.config();
+require ('dotenv').config();
+// const dotenv = require('dotenv');
+// dotenv.config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -15,7 +16,13 @@ mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+const ALLOWED_ORIGINS = [
+    'https://visdom-dev.netlify.app', 
+    'http://localhost:3000'
+];
+
+// const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+console.log('Allowed Origins:', ALLOWED_ORIGINS )
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin || allowedOrigins.includes(origin)) {
