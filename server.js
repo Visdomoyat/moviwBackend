@@ -15,13 +15,16 @@ mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
-
-app.use(
-  cors({
-    origin: "https://visdom-dev.netlify.app" || 'http://localhost:5173' , // Allow only this origin
-    credentials: true, // If you're using cookies or authentication
-  })
-);
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS: ${origin}`))
+    }
+  }
+}));
 
 app.use(express.json());
 app.use(logger('dev'));
